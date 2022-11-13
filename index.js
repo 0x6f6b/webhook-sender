@@ -6,8 +6,14 @@ const projectWebhooks = {};
 const sendTestMessage = async () => {
   for (const [project, webhook] of Object.entries(projectWebhooks)) {
     const client = new WebhookClient({ id: webhook.id, token: webhook.token });
-    await client.send(`Hello ${project}`);
-    console.log("Sent message to", project);
+
+    try {
+      await client.send(`Hello ${project}`);
+      console.log("Sent message to", project);
+    } catch (error) {
+      console.error(error);
+      console.log("Failed to send message to", project);
+    }
   }
 };
 
